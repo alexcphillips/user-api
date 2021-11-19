@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "server": "NODE_ENV=dev node server/index"
+    "server": "NODE_ENV=dev nodemon server/index"
   },
   "repository": {
     "type": "git",
