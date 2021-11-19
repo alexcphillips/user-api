@@ -1,5 +1,5 @@
 const path = require("path");
-const { isDev } = require("../utilities");
+const { clearConsole, isDev } = require("../utilities");
 
 let envPath = isDev ? "../../.env.dev" : "../../.env";
 require("dotenv").config({ path: path.join(__dirname, envPath) });
@@ -10,6 +10,8 @@ exports.db = null;
 
 exports.mongoConnect = async (options) => {
   try {
+    clearConsole();
+
     const defaultOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true
