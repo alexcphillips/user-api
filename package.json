@@ -4,7 +4,8 @@
   "description": "A simple user API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "server": "NODE_ENV=dev node server/index"
   },
   "repository": {
     "type": "git",
