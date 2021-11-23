@@ -1,5 +1,5 @@
 const path = require("path");
-const { clearConsole, isDev } = require("../utilities");
+const { clearConsole, isDev } = require("../../utils/utilities");
 
 if (isDev) {
   clearConsole();
