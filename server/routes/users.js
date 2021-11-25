@@ -1,5 +1,8 @@
 const mongo = require("../mongo");
-const { validateUserCreation } = require("../../utils/userCreation");
+const { newUserSchema } = require("../schemas/user");
+
+const Ajv = require("ajv");
+const ajv = new Ajv();
 
 exports.findAll = async (req, res) => {
   const data = await mongo.db.collection("users").find({}).toArray();
@@ -10,14 +13,23 @@ exports.findAll = async (req, res) => {
 };
 
 exports.insertOne = async (req, res) => {
-  const { name, username, email } = req.body;
-  const userInfo = [name, username, email];
-  if (userInfo.every(validateUserCreation)) {
-    console.log("hi");
-    res.send({ hi: "yes" });
-  } else {
-    res.send({ hi: "no" });
+  try {
+    if (
+      await mongo.db
+        .collection("users")
+        .findOne({ username: req.body.username })
+    ) {
+      return res.status(400).send({ error: "That username is taken." });
+    }
+    if (!ajv.validate(newUserSchema, req.body)) {
+      return res.status(400).send({ error: "Invalid user!" });
+    }
+    req.body.dateCreated = Date();
+    req.body.lastModified = null;
+    await mongo.db.collection("users").insertOne(req.body);
+    res.status(201).send();
+  } catch (err) {
+    console.log(err.message || err.toString());
+    res.status(500).send();
   }
 };
-
-// add id, dateCreated, dateModified, leave out billing info until they want to make a purchase
