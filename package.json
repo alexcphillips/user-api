@@ -6,7 +6,7 @@
     "scripts": {
         "test": "jest --coverage --runInBand",
         "docker": "docker build -t userapi . && docker compose up",
-        "server": "node server",
+        "start": "node server",
         "dev": "NODE_ENV=dev nodemon server"
     },
     "repository": {
